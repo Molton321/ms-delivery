@@ -1,0 +1,10 @@
+Flask==2.3.3
+Flask-SQLAlchemy==3.1.1
+SQLAlchemy==2.0.20
+python-dotenv==1.0.0
+flask-cors==5.0.1
+python-socketio==5.13.0
+eventlet==0.39.1
+Flask-SocketIO==5.5.1
+requests==2.32.3
+websocket-client==1.8.0

@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Mapa con Exportación a JSON</title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- Leaflet CSS -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+  <style>
+    #map { height: 80vh; }
+    #coordenadas, #exportar { margin: 10px; }
+  </style>
+</head>
+<body>
+
+<h2>Haz clic en el mapa para agregar puntos</h2>
+<div id="map"></div>
+<div id="coordenadas"></div>
+<button id="exportar">Exportar a JSON</button>
+
+<!-- Leaflet JS -->
+<script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+<script>
+  var map = L.map('map').setView([0, 0], 2);
+
+  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    attribution: '© OpenStreetMap contributors'
+  }).addTo(map);
+
+  var coordenadas = [];
+
+  map.on('click', function(e) {
+    var latlng = e.latlng;
+    L.marker([latlng.lat, latlng.lng]).addTo(map);
+    coordenadas.push({ lat: latlng.lat, lng: latlng.lng });
+    mostrarCoordenadas();
+  });
+
+  function mostrarCoordenadas() {
+    document.getElementById('coordenadas').innerHTML =
+      '<h3>Coordenadas:</h3><pre>' + JSON.stringify(coordenadas, null, 2) + '</pre>';
+  }
+
+  // Exportar a JSON
+  document.getElementById('exportar').addEventListener('click', function() {
+    var datos = JSON.stringify(coordenadas, null, 2);
+    var blob = new Blob([datos], { type: "application/json" });
+    var url = URL.createObjectURL(blob);
+
+    var a = document.createElement("a");
+    a.href = url;
+    a.download = "coordenadas.json";
+    a.click();
+    URL.revokeObjectURL(url);
+  });
+</script>
+
+</body>
+</html>
