@@ -22,3 +22,29 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+.venv
+
+# Python cache and environment
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+*.db
+*.sqlite3
+instance/
+
+# Uploads and data
+uploads/
+app/data/
+
+# Frontend build and dependencies
+src/*.js
+src/*.js.map
+
+# System files
+Thumbs.db
+
+# Ignore coordinates generated files
+coordinates/*.pyc
+coordinates/*.db
+coordinates/__pycache__/
