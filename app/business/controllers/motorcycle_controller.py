@@ -84,7 +84,7 @@ class MotorcycleController:
         total = len(coordenadas)
         while tareas_activas.get(plate, False):
             coord = coordenadas[i]
-            socketio.emit(plate, coord)
+            socketio.emit("actualizar_mapa", coord)
             print(f"[{plate}] Emitiendo coordenada {i}: {coord}")
             i = (i + 1) % total
             eventlet.sleep(5)

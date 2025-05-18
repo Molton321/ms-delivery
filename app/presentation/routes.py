@@ -14,6 +14,7 @@ from flask import Flask, send_from_directory
 import os
 from flask import send_file, abort,send_from_directory
 from flask import current_app
+
 main_bp = Blueprint('main', __name__)
 
 # Restaurant routes
@@ -107,6 +108,7 @@ def get_orders():
 
 @main_bp.route('/orders/<int:id>', methods=['GET'])
 def get_order(id):
+
     return jsonify(OrderController.get_by_id(id))
 
 @main_bp.route('/orders', methods=['POST'])
@@ -277,3 +279,15 @@ def start_tracking(plate):
 def stop_tracking(plate):
     result = MotorcycleController.stop_tracking_by_plate(plate)
     return jsonify(result)
+
+@main_bp.route("/notificar-prueba", methods=["POST"])
+def notificar_prueba():
+    from app.business.controllers.notifications_controller import NotificationController
+
+    data = request.json
+    NotificationController.notify(
+        title=data.get("title", "🔔 Notificación"),
+        message=data.get("message", "Esto es una prueba"),
+        extra_data=data.get("extra")
+    )
+    return jsonify({"status": "ok"})

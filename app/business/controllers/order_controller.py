@@ -3,6 +3,7 @@ from app.business.models.order import Order
 from app.business.models.menu import Menu
 from flask import jsonify
 
+
 class OrderController:
     @staticmethod
     def get_all():
@@ -32,6 +33,8 @@ class OrderController:
         
         db.session.add(new_order)
         db.session.commit()
+
+        
         
         return new_order.to_dict(), 201
     

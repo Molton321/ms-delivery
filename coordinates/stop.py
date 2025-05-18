@@ -11,12 +11,12 @@ PLATE = "ABC124"
 def iniciar_tracking():
     url = f"{BASE_URL}/motorcycles/stop/{PLATE}"
     try:
-        print(f"🚀 Enviando solicitud POST a {url}")
+        print(f" Enviando solicitud POST a {url}")
         response = requests.post(url)
         response.raise_for_status()
-        print(f"🔁 Respuesta del servidor: {response.json()}")
+        print(f" Respuesta del servidor: {response.json()}")
     except requests.RequestException as e:
-        print(f"❌ Error al iniciar el tracking: {e}")
+        print(f" Error al iniciar el tracking: {e}")
         return False
     return True
 
