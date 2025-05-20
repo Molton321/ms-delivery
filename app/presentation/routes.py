@@ -232,8 +232,13 @@ def get_photos():
     return jsonify(PhotoController.get_all())
 
 @main_bp.route('/photos/<int:id>', methods=['GET'])
+def get_photo_info(id):
+    return PhotoController.get_info_by_id(id)
+
+@main_bp.route('/photos/image/<int:id>', methods=['GET'])
 def get_photo(id):
     return PhotoController.get_by_id(id)
+
 
 @main_bp.route('/uploads/<path:filename>')
 def serve_uploaded_file(filename):

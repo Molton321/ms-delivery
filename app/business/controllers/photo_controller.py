@@ -27,12 +27,12 @@ class PhotoController:
         print("----->",photo_id)
         return send_from_directory('uploads', 'Captura_de_pantalla_122.png')
         """
-    """
+    
     @staticmethod
-    def get_by_id(photo_id):
+    def get_info_by_id(photo_id):
         photo = Photo.query.get_or_404(photo_id)
         return photo.to_dict()
-    """
+    
     
     @staticmethod
     def create(data):
