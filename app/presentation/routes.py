@@ -282,3 +282,15 @@ def start_tracking(plate):
 def stop_tracking(plate):
     result = MotorcycleController.stop_tracking_by_plate(plate)
     return jsonify(result)
+
+@main_bp.route("/notificar-prueba", methods=["POST"])
+def notificar_prueba():
+    from app.business.controllers.notifications_controller import NotificationController
+
+    data = request.json
+    NotificationController.notify(
+        title=data.get("title", "🔔 Notificación"),
+        message=data.get("message", "Esto es una prueba"),
+        extra_data=data.get("extra")
+    )
+    return jsonify({"status": "ok"})

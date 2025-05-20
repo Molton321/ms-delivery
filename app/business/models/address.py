@@ -5,7 +5,7 @@ class Address(db.Model):
     __tablename__ = 'addresses'
     
     id = db.Column(db.Integer, primary_key=True)
-    order_id = db.Column(db.Integer, db.ForeignKey('orders.id'), nullable=False, unique=True)
+    order_id = db.Column(db.Integer, db.ForeignKey('orders.id'), nullable=False)
     street = db.Column(db.String(100), nullable=False)
     city = db.Column(db.String(50), nullable=False)
     state = db.Column(db.String(50), nullable=False)
@@ -15,10 +15,6 @@ class Address(db.Model):
     
     # Relationship with Order
     order = db.relationship('Order', back_populates='address')
-    
-    __table_args__ = (
-        db.UniqueConstraint('order_id', name='uq_address_order_id'),
-    )
     
     def __repr__(self):
         return f'<Address {self.street}, {self.city}>'
