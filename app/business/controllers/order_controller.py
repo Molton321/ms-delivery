@@ -1,7 +1,10 @@
 from app import db
 from app.business.models.order import Order
 from app.business.models.menu import Menu
+from app.business.models.product import Product
+from app.business.models.customer import Customer
 from flask import jsonify
+from app import socketio
 
 class OrderController:
     @staticmethod
@@ -16,11 +19,12 @@ class OrderController:
     
     @staticmethod
     def create(data):
-        # Check if the menu item exists and calculate total price
+    # Obtener información del menú
         menu_item = Menu.query.get_or_404(data.get('menu_id'))
         quantity = data.get('quantity', 1)
         total_price = menu_item.price * quantity
-        
+
+        # Crear la orden
         new_order = Order(
             customer_id=data.get('customer_id'),
             menu_id=data.get('menu_id'),
@@ -29,9 +33,22 @@ class OrderController:
             total_price=total_price,
             status=data.get('status', 'pending')
         )
-        
+
         db.session.add(new_order)
         db.session.commit()
+
+        # 🔍 Obtener información adicional para la notificación
+        product = Product.query.get(menu_item.product_id)
+        customer = Customer.query.get(data.get('customer_id'))
+
+        # 📨 Enviar notificación
+        socketio.emit("notificacion", {
+            "title": "🎉 ¡Hay un nuevo pedido!",
+            "message": f"🧾 {customer.name} ordenó el producto {product.name}."
+        })
+
+
+        
         
         return new_order.to_dict(), 201
     

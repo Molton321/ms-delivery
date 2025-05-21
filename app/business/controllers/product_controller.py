@@ -1,6 +1,7 @@
 from app import db
 from app.business.models.product import Product
 from flask import jsonify
+from app import socketio
 
 class ProductController:
     @staticmethod
@@ -24,6 +25,13 @@ class ProductController:
         
         db.session.add(new_product)
         db.session.commit()
+
+        socketio.emit("notificacion", {
+    "title": "🎉 ¡Nuevo producto disponible!",
+    "message": f"🚀 El producto {new_product.name} ahora está disponible. ¡Échale un vistazo ahora!"
+})
+
+
         
         return new_product.to_dict(), 201
     
@@ -41,6 +49,8 @@ class ProductController:
             product.category = data['category']
         
         db.session.commit()
+
+        
         
         return product.to_dict()
     
